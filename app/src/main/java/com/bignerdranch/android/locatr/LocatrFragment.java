@@ -101,7 +101,6 @@ public class LocatrFragment extends Fragment {
    public boolean onOptionsItemSelected(MenuItem item) {
       switch(item.getItemId()) {
          case R.id.action_locate:
-            showLoading();
             findImage();
             return true;
          default:
@@ -109,7 +108,7 @@ public class LocatrFragment extends Fragment {
       }
    }
 
-   private void showLoading() {
+   private void startLoading() {
       progress = new ProgressDialog(this.getContext());
 
       progress.setMessage("Downloading Image");
@@ -119,7 +118,11 @@ public class LocatrFragment extends Fragment {
       progress.show();
    }
 
+   private void stopLoading() { progress.dismiss(); }
+
    private void findImage() {
+      startLoading();
+
       LocationRequest request = LocationRequest.create();
       request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
       request.setNumUpdates(1);
@@ -163,7 +166,7 @@ public class LocatrFragment extends Fragment {
       @Override
       protected void onPostExecute(Void result) {
          mImageView.setImageBitmap(mBitmap);
-         progress.dismiss();
+         stopLoading();
       }
    }
 }
