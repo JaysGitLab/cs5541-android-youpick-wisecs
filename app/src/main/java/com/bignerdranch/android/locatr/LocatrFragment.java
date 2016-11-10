@@ -36,6 +36,7 @@ public class LocatrFragment extends Fragment {
 
    private ImageView mImageView;
    private GoogleApiClient mClient;
+   private ProgressDialog progress;
 
    public static LocatrFragment newInstance() {
       return new LocatrFragment();
@@ -100,7 +101,7 @@ public class LocatrFragment extends Fragment {
    public boolean onOptionsItemSelected(MenuItem item) {
       switch(item.getItemId()) {
          case R.id.action_locate:
-            //showLoading();
+            showLoading();
             findImage();
             return true;
          default:
@@ -109,11 +110,13 @@ public class LocatrFragment extends Fragment {
    }
 
    private void showLoading() {
-      ProgressDialog progress = new ProgressDialog(this.getContext());
+      progress = new ProgressDialog(this.getContext());
 
-      //progress.setMessage("Downloading Image :) ");
+      progress.setMessage("Downloading Image");
       progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
       progress.setIndeterminate(true);
+
+      progress.show();
    }
 
    private void findImage() {
@@ -122,7 +125,7 @@ public class LocatrFragment extends Fragment {
       request.setNumUpdates(1);
       request.setInterval(0);
       if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-         //suppsed to request permissions if do not have them
+         //supposed to request permissions if do not have them
          return;
       }
       LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, new LocationListener() {
@@ -160,6 +163,7 @@ public class LocatrFragment extends Fragment {
       @Override
       protected void onPostExecute(Void result) {
          mImageView.setImageBitmap(mBitmap);
+         progress.dismiss();
       }
    }
 }
