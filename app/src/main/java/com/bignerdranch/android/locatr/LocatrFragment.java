@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,10 +32,9 @@ import java.util.List;
  * Created by Carter W on 11/8/2016.
  */
 
-public class LocatrFragment extends Fragment {
+public class LocatrFragment extends SupportMapFragment {
    private static final String TAG = "LocatrFragment";
 
-   private ImageView mImageView;
    private GoogleApiClient mClient;
    private ProgressDialog progress;
 
@@ -61,14 +61,6 @@ public class LocatrFragment extends Fragment {
                }
             })
             .build();
-   }
-
-   @Override
-   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      View v = inflater.inflate(R.layout.fragment_locatr, container, false);
-      mImageView = (ImageView) v.findViewById(R.id.image);
-
-      return v;
    }
 
    @Override
@@ -165,7 +157,6 @@ public class LocatrFragment extends Fragment {
 
       @Override
       protected void onPostExecute(Void result) {
-         mImageView.setImageBitmap(mBitmap);
          stopLoading();
       }
    }
